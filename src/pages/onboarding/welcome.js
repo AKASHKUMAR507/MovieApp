@@ -8,22 +8,26 @@ import MovieLogo from '../../../assets/icons/Logo.svg'
 import colors from '../../styles/colors'
 import fontSizes from '../../styles/fonts'
 import { useNavigation } from '@react-navigation/native'
-import { UserContext } from '../../context/usercontext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const Welcome = () => {
     const navigation = useNavigation();
-    const { setUser } = useContext(UserContext)
     const [name, setName] = React.useState('');
-    const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (name.trim() === '') {
             setError('Please enter your name');
             return;
         }
-        setUser({ name });
-        navigation.replace('Genres');
+
+        try {
+            await AsyncStorage.setItem('user', JSON.stringify({ name }));
+            navigation.replace('Genres');
+        } catch (error) {
+            throw error;
+        }
     }
 
     return (

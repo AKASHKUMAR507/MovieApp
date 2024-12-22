@@ -33,7 +33,7 @@ const Genres = () => {
 
     const handleNext = () => {
         setGenre(selectedGenres)
-        navigation.replace('App');
+        navigation.navigate('App');
     }
 
     return (

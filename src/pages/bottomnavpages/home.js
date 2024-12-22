@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { use, useContext, useEffect, useState } from 'react'
 import { Movies } from '../../network/models/movies';
 import shadows from '../../styles/shadows';
 import colors from '../../styles/colors';
@@ -11,6 +11,7 @@ import Loading from '../../components/loading';
 import NotFoundCard from '../../components/notfound';
 import { GenresContext } from '../../context/genrecontext'
 import filterMoviesByGenre from '../../utilities/filtermovies';
+import { UserContext } from '../../context/usercontext';
 
 // NOTE: The Search Input is an additional code written here
 const SearchInput = ({
@@ -47,10 +48,11 @@ const HomePage = (props) => {
     const [movies, setMovies] = React.useState([]);
     const [searchText, setSearchText] = useState("");
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const { genre } = React.useContext(GenresContext);
+    const { genre } = useContext(GenresContext);
 
     useEffect(() => {
         getMovies();
+        setSearchText('');
     }, [])
 
     useEffect(() => {
